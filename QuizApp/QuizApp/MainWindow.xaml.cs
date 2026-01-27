@@ -16,9 +16,20 @@ namespace QuizApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
         }
+        
+
+        private void MainButtonClick(object sender, RoutedEventArgs e) {
+            MessageBox.Show("Tu as cliqué sur le bouton.\n\nFéclicitation !");
+            //this.Content = new Page1();
+        }
+        private void CharlieButtonClick(object sender, RoutedEventArgs e) {
+            Window1 charlie = new Window1();
+            charlie.Show();
+        }
+
     }
+    
 }
