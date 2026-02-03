@@ -67,7 +67,7 @@ namespace QuizApp {
                         Text = reader.GetString(6),
                         TextWrapping = TextWrapping.Wrap
                     },
-                    Width = 140,
+                    Width = 140, 
                     HorizontalAlignment = HorizontalAlignment.Right,
                     VerticalAlignment = VerticalAlignment.Bottom
                 };
