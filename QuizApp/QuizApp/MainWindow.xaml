@@ -56,7 +56,8 @@
             <Button Width="150"
                     Background="#4d5454"
                     Padding="10"
-                    Margin="0,40,0,0">
+                    Margin="0,40,0,0"
+                    Click="start_quiz">
                 <Button.Resources>
                     <CornerRadius x:Key="ControlCornerRadius">100</CornerRadius>
                 </Button.Resources>
