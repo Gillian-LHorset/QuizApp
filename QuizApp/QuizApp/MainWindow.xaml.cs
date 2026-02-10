@@ -14,23 +14,20 @@ namespace QuizApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow() {
             InitializeComponent();
+
+            //TODO : trouver une alternative à this.Content, car this.Content oblige d'avoir comme parent Window
+            Frame newNameSelectPage = new Frame();
+
+            this.Content = newNameSelectPage;
+
+            newNameSelectPage.Content = new NameSelectPage();
         }
         
 
-        private void MainButtonClick(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Tu as cliqué sur le bouton.\n\nFéclicitation !");
-        }
-
-        private void start_quiz(object sender, RoutedEventArgs e) {
-
-            this.Content = new QuizPage();
-
-
-        }
 
     }
     

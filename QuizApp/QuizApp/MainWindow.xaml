@@ -7,61 +7,6 @@
         mc:Ignorable="d"
         Title="QuizApp" Height="600" Width="1000">
     <Grid Name="pnlMainGrid" Background="#1f1f1f" RenderTransformOrigin="0.569,0.498">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <!-- Templates -->
-        <UserControl>
-            
-        </UserControl>
         
-        
-        <TextBlock  HorizontalAlignment="Center" 
-                    VerticalAlignment="Top"
-                    Margin="0,50,0,0"
-                    FontSize="72" 
-                    FontFamily="Arial Black"
-                    FontWeight="Bold" 
-                    Foreground="#c1cccc" 
-                    Grid.ColumnSpan="2">
-            Bienvenue sur QuizApp !
-        </TextBlock>
-        <StackPanel  HorizontalAlignment="Center" 
-                     VerticalAlignment="Center">
-            <Label Foreground="#c1cccc"
-                   FontFamily="Arial Black"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center">
-                Choisissez un nom</Label>
-            <Border CornerRadius="20"
-                    BorderThickness="1"
-                    BorderBrush="Gray"
-                    Padding="2"> 
-                <TextBox  HorizontalAlignment="Center" 
-                          VerticalAlignment="Center"
-                          Width="250"
-                          Height="30"
-                          BorderThickness="0"
-                          Background="Transparent"
-                          TextAlignment="Left"
-                          Padding="10,0,0,0"
-                          VerticalContentAlignment="Center"
-                          Foreground="#c1cccc"
-                          FontFamily="Arial"
-                          FontWeight="Bold"
-                          MaxLength="35"
-                          />
-            </Border>
-            <Button Width="150"
-                    Background="#4d5454"
-                    Padding="10"
-                    Margin="0,40,0,0"
-                    Click="start_quiz">
-                <Button.Resources>
-                    <CornerRadius x:Key="ControlCornerRadius">100</CornerRadius>
-                </Button.Resources>
-                Commencer le quiz !</Button>
-        </StackPanel>
     </Grid>
 </Window>

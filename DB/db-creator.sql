@@ -7,10 +7,10 @@ CREATE TABLE t_question (
     question_id INT NOT NULL AUTO_INCREMENT,
     theme VARCHAR(59) NOT NULL,
     enonce VARCHAR(109) NOT NULL,
-    reponse_correcte VARCHAR(109) NOT NULL,
-    reponse_fausse_1 VARCHAR(109) NOT NULL,
-    reponse_fausse_2 VARCHAR(109) NOT NULL,
-    reponse_fausse_3 VARCHAR(109) NOT NULL,
+    reponse_correcte VARCHAR(159) NOT NULL,
+    reponse_fausse_1 VARCHAR(159) NOT NULL,
+    reponse_fausse_2 VARCHAR(159) NOT NULL,
+    reponse_fausse_3 VARCHAR(159) NOT NULL,
     PRIMARY KEY(question_id)
 );
 
