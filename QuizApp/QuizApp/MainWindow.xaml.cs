@@ -18,16 +18,18 @@ namespace QuizApp
     {
         public MainWindow() {
             InitializeComponent();
-
-            //TODO : trouver une alternative à this.Content, car this.Content oblige d'avoir comme parent Window
-            Frame newNameSelectPage = new Frame();
-
-            this.Content = newNameSelectPage;
-
-            newNameSelectPage.Content = new NameSelectPage();
         }
-        
 
+        private void start_quiz(object sender, RoutedEventArgs e) {
+
+            Frame newQuizPage = new Frame();
+
+            this.Content = newQuizPage;
+
+
+            newQuizPage.Content = new QuizPage();
+
+        }
 
     }
     

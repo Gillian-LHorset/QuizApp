@@ -224,11 +224,7 @@ namespace QuizApp {
         }
 
         private void Restart_Button(object sender, RoutedEventArgs e) {
-            Frame newNameSelectPage = new Frame();
-
-            this.Content = newNameSelectPage;
-
-            newNameSelectPage.Content = new NameSelectPage();
+            // TODO : doit retourner à la MainWindow
         }
 
         private void ColorButtons() {
