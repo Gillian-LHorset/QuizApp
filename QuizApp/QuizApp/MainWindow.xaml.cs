@@ -17,7 +17,10 @@ namespace QuizApp
     public partial class MainWindow : Window
     {
 
-        private Page _homePage;
+        public Page _homePage;
+        private string _playerName;
+        private int _playerScore = 0;
+        private int _playerBestScore;
 
         public MainWindow() {
             InitializeComponent();
@@ -26,9 +29,21 @@ namespace QuizApp
             MainFrame.Content = _homePage;
         }
 
+        public void SetPlayerName(string playerName) {
+            _playerName = playerName;
+        }
+
+        public void IncrementPlayerScore() {
+            _playerScore++;
+        }
+
+        public void SetPlayerBestScore(int bestScore) {
+            _playerBestScore = bestScore;
+        }
+
         public void NavigateToQuizPage() {
 
-            MainFrame.Content = new QuizPage();
+            MainFrame.Content = new QuizPage(_playerName, _playerScore, _playerBestScore);
 
         }
 

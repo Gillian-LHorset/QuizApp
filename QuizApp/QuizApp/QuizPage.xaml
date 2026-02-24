@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       Title="QuizApp" Height="600" Width="1000">
     
-    <Grid Name="pnlMainGrid" Background="#1f1f1f" RenderTransformOrigin="0.569,0.498">
+    <Grid Name="MainGrid" Background="#1f1f1f" RenderTransformOrigin="0.569,0.498">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>

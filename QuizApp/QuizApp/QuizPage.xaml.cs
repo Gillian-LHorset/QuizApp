@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace QuizApp {
         private SolidColorBrush _greenBackgroundBrush = new SolidColorBrush(Color.FromRgb(123, 252, 106));
         private SolidColorBrush _redBackgroundBrush = new SolidColorBrush(Color.FromRgb(255, 74, 74));
 
-        public QuizPage() {
+        public QuizPage(string playerName, int playerScore, int playerBestScore) {
             InitializeComponent();
 
             using MySqlConnection connection = new MySqlConnection("Server=localhost;Port=6033;User ID=root;Password=root;Database=db_quizapp");
@@ -39,41 +40,70 @@ namespace QuizApp {
             Random random = new Random();
 
 
-
-
             if (reader.Read()) {
 
-                TextBox themeText = new TextBox {
-                    Text = "Theme : " + reader.GetString(1),
+
+                // theme box
+                Border themeBorder = new Border {
                     Width = 300,
                     Height = 50,
-                    TextAlignment = TextAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-
-                    HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Top,
 
-                    Cursor = Cursors.Arrow,
+                    Background = Brushes.White,
+
                     Margin = new Thickness(0, 20, 0, 0)
                 };
 
-                TextBox enonceText = new TextBox {
-                    Text = "Question : " + reader.GetString(2),
+                TextBlock themeText = new TextBlock {
+                    Text = "Theme : " + reader.GetString(1),
+                    TextAlignment = TextAlignment.Center,
+
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+
+
+                // enoncé box
+
+                Border enonceBorder = new Border {
                     Width = 300,
                     Height = 50,
-                    TextAlignment = TextAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-
-                    HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Top,
 
-                    Cursor = Cursors.Arrow,
+                    Background = Brushes.White,
+
                     Margin = new Thickness(0, 100, 0, 0)
                 };
 
-                pnlMainGrid.Children.Add(themeText);
-                pnlMainGrid.Children.Add(enonceText);
+                TextBlock enonceText = new TextBlock {
+                    Text = "Question : " + reader.GetString(2),
+                    TextAlignment = TextAlignment.Center,
 
+                    VerticalAlignment = VerticalAlignment.Center,
+
+
+                };
+
+                // name of the player
+
+                TextBlock playerNameText = new TextBlock {
+                    Text = playerName, 
+                    TextAlignment = TextAlignment.Left,
+                    Foreground = Brushes.White,
+                    VerticalAlignment = VerticalAlignment.Top,
+
+                    Margin = new Thickness(20, 20, 0, 0)
+                };
+
+
+                themeBorder.Child = themeText;
+                enonceBorder.Child = enonceText;
+
+                // add the boxes in the view
+                MainGrid.Children.Add(themeBorder);
+                MainGrid.Children.Add(enonceBorder);
+                MainGrid.Children.Add(playerNameText);
+
+                // randomise the order of the answerts
                 int[] shuffledArray = randomArray.OrderBy(x => random.Next()).ToArray();
 
 
@@ -111,7 +141,7 @@ namespace QuizApp {
 
             SetButtonLocation(fakeButton, buttonLocation);
 
-            pnlMainGrid.Children.Add(fakeButton);
+            MainGrid.Children.Add(fakeButton);
         }
 
         private void CreateCorrectButton(String contentText, int buttonLocation) {
@@ -133,7 +163,7 @@ namespace QuizApp {
 
             SetButtonLocation(correctButton, buttonLocation);
 
-            pnlMainGrid.Children.Add(correctButton);
+            MainGrid.Children.Add(correctButton);
 
         }
 
@@ -175,7 +205,7 @@ namespace QuizApp {
 
             ColorButtons();
 
-            pnlMainGrid.Children.Add(falseText);
+            MainGrid.Children.Add(falseText);
 
             // Restart the game
             Button restartButton = new Button {
@@ -196,7 +226,7 @@ namespace QuizApp {
 
             restartButton.Click += Restart_Button;
 
-            pnlMainGrid.Children.Add(restartButton);
+            MainGrid.Children.Add(restartButton);
         }
 
         private void Button_Correct(object sender, RoutedEventArgs e) {
@@ -214,24 +244,22 @@ namespace QuizApp {
 
             ColorButtons();
 
-            pnlMainGrid.Children.Add(correctText);
+            MainGrid.Children.Add(correctText);
+            if (Window.GetWindow(this) is MainWindow mainWindow) {
 
-            Frame newQuizPage = new Frame();
+                mainWindow.NavigateToQuizPage();
+            }
 
-            this.Content = newQuizPage;
-
-            newQuizPage.Content = new QuizPage();
         }
 
         private void Restart_Button(object sender, RoutedEventArgs e) {
-            // TODO : doit retourner à la MainWindow
             if (Window.GetWindow(this) is MainWindow mainWindow) {
                 mainWindow.ReturnToHomePage();
             }
         }
 
         private void ColorButtons() {
-            foreach (Button button in pnlMainGrid.Children.OfType<Button>()) {
+            foreach (Button button in MainGrid.Children.OfType<Button>()) {
                 if (button.Tag.Equals("false")) {
                     button.Background = _redBackgroundBrush;
                 } else if (button.Tag.Equals("true")) {
