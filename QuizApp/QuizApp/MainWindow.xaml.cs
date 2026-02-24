@@ -14,21 +14,26 @@ namespace QuizApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
+
+        private Page _homePage;
+
         public MainWindow() {
             InitializeComponent();
+
+            _homePage = new HomePage();
+            MainFrame.Content = _homePage;
         }
 
-        private void start_quiz(object sender, RoutedEventArgs e) {
+        public void NavigateToQuizPage() {
 
-            Frame newQuizPage = new Frame();
+            MainFrame.Content = new QuizPage();
 
-            this.Content = newQuizPage;
+        }
 
-
-            newQuizPage.Content = new QuizPage();
-
+        public void ReturnToHomePage() {
+            MainFrame.Content = _homePage;
         }
 
     }

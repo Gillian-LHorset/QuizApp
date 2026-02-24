@@ -71,8 +71,8 @@ namespace QuizApp {
                     Margin = new Thickness(0, 100, 0, 0)
                 };
 
-                MainGrid.Children.Add(themeText);
-                MainGrid.Children.Add(enonceText);
+                pnlMainGrid.Children.Add(themeText);
+                pnlMainGrid.Children.Add(enonceText);
 
                 int[] shuffledArray = randomArray.OrderBy(x => random.Next()).ToArray();
 
@@ -111,7 +111,7 @@ namespace QuizApp {
 
             SetButtonLocation(fakeButton, buttonLocation);
 
-            MainGrid.Children.Add(fakeButton);
+            pnlMainGrid.Children.Add(fakeButton);
         }
 
         private void CreateCorrectButton(String contentText, int buttonLocation) {
@@ -133,7 +133,7 @@ namespace QuizApp {
 
             SetButtonLocation(correctButton, buttonLocation);
 
-            MainGrid.Children.Add(correctButton);
+            pnlMainGrid.Children.Add(correctButton);
 
         }
 
@@ -175,7 +175,7 @@ namespace QuizApp {
 
             ColorButtons();
 
-            MainGrid.Children.Add(falseText);
+            pnlMainGrid.Children.Add(falseText);
 
             // Restart the game
             Button restartButton = new Button {
@@ -196,7 +196,7 @@ namespace QuizApp {
 
             restartButton.Click += Restart_Button;
 
-            MainGrid.Children.Add(restartButton);
+            pnlMainGrid.Children.Add(restartButton);
         }
 
         private void Button_Correct(object sender, RoutedEventArgs e) {
@@ -214,7 +214,7 @@ namespace QuizApp {
 
             ColorButtons();
 
-            MainGrid.Children.Add(correctText);
+            pnlMainGrid.Children.Add(correctText);
 
             Frame newQuizPage = new Frame();
 
@@ -225,10 +225,13 @@ namespace QuizApp {
 
         private void Restart_Button(object sender, RoutedEventArgs e) {
             // TODO : doit retourner à la MainWindow
+            if (Window.GetWindow(this) is MainWindow mainWindow) {
+                mainWindow.ReturnToHomePage();
+            }
         }
 
         private void ColorButtons() {
-            foreach (Button button in MainGrid.Children.OfType<Button>()) {
+            foreach (Button button in pnlMainGrid.Children.OfType<Button>()) {
                 if (button.Tag.Equals("false")) {
                     button.Background = _redBackgroundBrush;
                 } else if (button.Tag.Equals("true")) {
