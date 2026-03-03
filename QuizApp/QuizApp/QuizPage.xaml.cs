@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
@@ -28,7 +29,7 @@ namespace QuizApp {
         public QuizPage(string playerName, int playerScore, int playerBestScore) {
             InitializeComponent();
 
-            using MySqlConnection connection = new MySqlConnection("Server=localhost;Port=6033;User ID=root;Password=root;Database=db_quizapp");
+            using MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["DBConnexion"].ConnectionString);
             connection.Open();
 
             using MySqlCommand command = new MySqlCommand("SELECT * FROM t_question ORDER BY RAND() LIMIT 1;", connection);
