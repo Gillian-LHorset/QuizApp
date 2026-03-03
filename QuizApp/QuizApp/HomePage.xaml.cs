@@ -23,7 +23,7 @@ namespace QuizApp {
         public HomePage() {
             InitializeComponent();
         }
-        public string test;
+
         public void start_quiz(object sender, RoutedEventArgs e) {
             if (!string.IsNullOrWhiteSpace(PlayerName.Text)) {
                 if (PlayerName.Text.Length < 51) {
@@ -33,6 +33,7 @@ namespace QuizApp {
 
                     if (Window.GetWindow(this) is MainWindow mainWindow) {
                         mainWindow.SetPlayerName(PlayerName.Text);
+                        mainWindow.SetPlayerBestScore(GetPlayerBestScore());
                         mainWindow.NavigateToQuizPage();
                     }
                 } else {
@@ -77,6 +78,8 @@ namespace QuizApp {
         }
 
         public int GetPlayerBestScore() {
+            int playerBestScore = 0;
+
             using MySqlConnection connection = new MySqlConnection("Server=localhost;Port=6033;User ID=root;Password=root;Database=db_quizapp");
             connection.Open();
 
@@ -87,23 +90,14 @@ namespace QuizApp {
             using MySqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read()) {
-                playerNameFromDB = reader.GetString("player_name");
+                playerBestScore = reader.GetInt32("meilleur_score");
             }
 
             connection.Close();
 
-            if (playerNameFromDB == null) {
-                connection.Open();
+            
 
-                using MySqlCommand registerCommand = new MySqlCommand("INSERT INTO t_player (player_name, meilleur_score) VALUES (@val1, 0);", connection);
-                registerCommand.Parameters.AddWithValue("@val1", PlayerName.Text);
-                registerCommand.Prepare();
-
-                registerCommand.ExecuteReader();
-
-                connection.Close();
-            }
-            return 0;
+            return playerBestScore;
         }
 
     }

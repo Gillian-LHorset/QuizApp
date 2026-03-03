@@ -62,13 +62,14 @@ namespace QuizApp {
                 };
 
 
+
                 // enoncé box
 
                 Border enonceBorder = new Border {
                     Width = 300,
                     Height = 50,
                     VerticalAlignment = VerticalAlignment.Top,
-
+                    
                     Background = Brushes.White,
 
                     Margin = new Thickness(0, 100, 0, 0)
@@ -77,7 +78,7 @@ namespace QuizApp {
                 TextBlock enonceText = new TextBlock {
                     Text = "Question : " + reader.GetString(2),
                     TextAlignment = TextAlignment.Center,
-
+                    TextWrapping = TextWrapping.Wrap,
                     VerticalAlignment = VerticalAlignment.Center,
 
 
@@ -86,13 +87,34 @@ namespace QuizApp {
                 // name of the player
 
                 TextBlock playerNameText = new TextBlock {
-                    Text = playerName, 
+                    Text = "Joueur : " + playerName, 
                     TextAlignment = TextAlignment.Left,
                     Foreground = Brushes.White,
                     VerticalAlignment = VerticalAlignment.Top,
 
                     Margin = new Thickness(20, 20, 0, 0)
                 };
+
+
+
+                TextBlock BestScoreBT = new TextBlock {
+                    Text = "Meilleur score : " + playerBestScore,
+                    TextAlignment = TextAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Foreground = Brushes.White,
+
+                    Margin = new Thickness(0, 20, 50, 0)
+                };
+
+                TextBlock ScoreBT = new TextBlock {
+                    Text = "Score : " + playerScore,
+                    TextAlignment = TextAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Foreground = Brushes.White,
+
+                    Margin = new Thickness(0, 50, 50, 0)
+                };
+
 
 
                 themeBorder.Child = themeText;
@@ -103,6 +125,10 @@ namespace QuizApp {
                 MainGrid.Children.Add(enonceBorder);
                 MainGrid.Children.Add(playerNameText);
 
+                // 
+                MainGrid.Children.Add(BestScoreBT);
+                MainGrid.Children.Add(ScoreBT);
+
                 // randomise the order of the answerts
                 int[] shuffledArray = randomArray.OrderBy(x => random.Next()).ToArray();
 
@@ -112,6 +138,8 @@ namespace QuizApp {
                 CreateFakeButton(reader.GetString(6), shuffledArray[2]);
                 CreateCorrectButton(reader.GetString(3), shuffledArray[3]);
 
+
+                    
                 
 
             }
@@ -224,6 +252,12 @@ namespace QuizApp {
             };
 
 
+            if (Window.GetWindow(this) is MainWindow mainWindow) {
+                if (mainWindow.playerScore > mainWindow.playerBestScore) {
+                    RegisterPlayerBestScore(mainWindow.playerName, mainWindow.playerScore);
+                }
+            }
+
             restartButton.Click += Restart_Button;
 
             MainGrid.Children.Add(restartButton);
@@ -246,7 +280,7 @@ namespace QuizApp {
 
             MainGrid.Children.Add(correctText);
             if (Window.GetWindow(this) is MainWindow mainWindow) {
-
+                mainWindow.IncrementPlayerScore();
                 mainWindow.NavigateToQuizPage();
             }
 
@@ -254,6 +288,7 @@ namespace QuizApp {
 
         private void Restart_Button(object sender, RoutedEventArgs e) {
             if (Window.GetWindow(this) is MainWindow mainWindow) {
+                mainWindow.ResetPlayerScore();
                 mainWindow.ReturnToHomePage();
             }
         }
@@ -268,6 +303,20 @@ namespace QuizApp {
 
                 button.IsHitTestVisible = false;
             }
+        }
+
+        public void RegisterPlayerBestScore(string playerName, int score) {
+            using MySqlConnection connection = new MySqlConnection("Server=localhost;Port=6033;User ID=root;Password=root;Database=db_quizapp");
+            connection.Open();
+
+            using MySqlCommand registerCommand = new MySqlCommand("UPDATE t_player SET meilleur_score = @val1 WHERE player_name = @val2;", connection);
+            registerCommand.Parameters.AddWithValue("@val1", score);
+            registerCommand.Parameters.AddWithValue("@val2", playerName);
+            registerCommand.Prepare();
+
+            registerCommand.ExecuteReader();
+
+            connection.Close();
         }
     }
 }

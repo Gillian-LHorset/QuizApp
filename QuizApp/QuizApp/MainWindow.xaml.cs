@@ -18,9 +18,9 @@ namespace QuizApp
     {
 
         public Page _homePage;
-        private string _playerName;
-        private int _playerScore = 0;
-        private int _playerBestScore;
+        public string playerName;
+        public int playerScore = 0;
+        public int playerBestScore = 0;
 
         public MainWindow() {
             InitializeComponent();
@@ -29,22 +29,36 @@ namespace QuizApp
             MainFrame.Content = _homePage;
         }
 
+        /// <summary>
+        /// Use for transmet the player name in the views
+        /// </summary>
+        /// <param name="playerName">The name of the current player</param>
         public void SetPlayerName(string playerName) {
-            _playerName = playerName;
+            this.playerName = playerName;
         }
 
+        /// <summary>
+        /// Increment the score of the player after a good answert
+        /// </summary>
         public void IncrementPlayerScore() {
-            _playerScore++;
+            playerScore++;
         }
 
+        /// <summary>
+        /// Set the best score of the player to the variable for be use in the views
+        /// </summary>
+        /// <param name="bestScore"></param>
         public void SetPlayerBestScore(int bestScore) {
-            _playerBestScore = bestScore;
+            playerBestScore = bestScore;
         }
+
+        public void ResetPlayerScore() {
+            playerScore = 0;
+        }
+
 
         public void NavigateToQuizPage() {
-
-            MainFrame.Content = new QuizPage(_playerName, _playerScore, _playerBestScore);
-
+            MainFrame.Content = new QuizPage(playerName, playerScore, playerBestScore);
         }
 
         public void ReturnToHomePage() {
